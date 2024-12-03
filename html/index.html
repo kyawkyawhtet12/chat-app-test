@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Socket.io Standalone Client</title>
+   </head>
+   <!-- Ensure this script points to the Socket.io client library served by the server -->
+   <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+   <script>
+      // Connect to the Socket.io server
+      const socket = io('http://localhost:3000');
+        
+      // Listen for messages from the server
+      socket.on('message', (data) => {
+        console.log(data);
+        
+         const messagesDiv = document.getElementById('messages');
+         const messageElement = document.createElement('div');
+         messageElement.textContent = data; // Display the message
+         messagesDiv.appendChild(messageElement);
+
+        var btn = document.getElementById('sendBtn');
+        var text = document.getElementById('msg');
+        btn.addEventListener('click', () => {
+            socket.emit('c-message',text.value)
+            console.log(text.value);
+        })
+
+      });
+
+
+
+      // Optionally send a message to the server
+    //   socket.emit('client-message', 'Hello from standalone client!');
+   </script>
+   <body>
+      <h1>Integrating Socket.io with Node.js and Express</h1>
+      <div id="messages"></div>
+      <input type="text" id="msg">
+      <button id="sendBtn">Send</button>
+   </body>
+</html>
